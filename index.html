@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blinh Hoang: Systems, Stories, and Strategy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --blue: #81B0D2;
+      --blue-light: #b3d0e8;
+      --blue-dark: #5a8fb5;
+      --yellow: #F7E9A0;
+      --yellow-warm: #f2e07a;
+      --green: #B8D8B0;
+      --green-light: #d4eace;
+      --green-dark: #6a9e60;
+      --cream: #FAFAF7;
+      --cream-dark: #F2F0EB;
+      --ink: #1C1C1A;
+      --ink-mid: #4a4a46;
+      --ink-light: #8a8a84;
+      --white: #ffffff;
+      --serif: 'Playfair Display', Georgia, serif;
+      --display: 'DM Serif Display', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --shadow-soft: 0 4px 24px rgba(0,0,0,0.06);
+      --shadow-card: 0 8px 40px rgba(0,0,0,0.08);
+      --transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: var(--sans); background: var(--cream); color: var(--ink); line-height: 1.7; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ---- UTILITIES ---- */
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+    .section { padding: 100px 0; }
+    .section-label {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--blue-dark);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: var(--display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--ink-mid);
+      max-width: 560px;
+      line-height: 1.75;
+    }
+
+    /* ---- SCROLL ANIMATIONS ---- */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ---- NAV ---- */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(250,250,247,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(129,176,210,0.15);
+      transition: var(--transition);
+    }
+    nav .logo {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    nav .logo span { color: var(--blue-dark); }
+    nav ul { list-style: none; display: flex; gap: 36px; }
+    nav ul li a {
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+      color: var(--ink-mid);
+      transition: color 0.2s;
+    }
+    nav ul li a:hover { color: var(--blue-dark); }
+
+    /* ---- HERO ---- */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -160px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(129,176,210,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -100px;
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, rgba(184,216,176,0.18) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--yellow);
+      border-radius: 40px;
+      padding: 6px 16px 6px 10px;
+      margin-bottom: 28px;
+    }
+    .hero-eyebrow .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--blue-dark);
+    }
+    .hero-eyebrow span {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+    }
+    .hero-name {
+      font-family: var(--display);
+      font-size: clamp(2.8rem, 5.5vw, 4.2rem);
+      line-height: 1.08;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .hero-tagline {
+      font-family: var(--serif);
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      font-style: italic;
+      color: var(--blue-dark);
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+    .hero-para {
+      font-size: 1rem;
+      color: var(--ink-mid);
+      line-height: 1.8;
+      max-width: 480px;
+      margin-bottom: 40px;
+    }
+    .btn-group { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 26px;
+      border-radius: 40px;
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      border: none;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--blue);
+      color: var(--white);
+      box-shadow: 0 4px 18px rgba(129,176,210,0.4);
+    }
+    .btn-primary:hover {
+      background: var(--blue-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(129,176,210,0.5);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--ink);
+      border: 1.5px solid rgba(28,28,26,0.18);
+    }
+    .btn-outline:hover {
+      border-color: var(--blue);
+      color: var(--blue-dark);
+      transform: translateY(-2px);
+      background: rgba(129,176,210,0.05);
+    }
+
+    /* Hero visual */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .hero-card-stack { position: relative; width: 340px; height: 380px; }
+    .hero-card {
+      position: absolute;
+      border-radius: var(--radius-lg);
+      padding: 28px 30px;
+    }
+    .hero-card-1 {
+      width: 240px;
+      background: var(--white);
+      box-shadow: var(--shadow-card);
+      top: 40px; left: 20px;
+      z-index: 2;
+      animation: float1 6s ease-in-out infinite;
+    }
+    .hero-card-2 {
+      width: 210px;
+      background: var(--yellow);
+      top: 160px; right: 0;
+      z-index: 3;
+      animation: float2 5s ease-in-out infinite 1s;
+    }
+    .hero-card-3 {
+      width: 190px;
+      background: var(--green);
+      top: 0; right: 30px;
+      z-index: 1;
+      animation: float3 7s ease-in-out infinite 0.5s;
+    }
+    .hero-card-label {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.55;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+    .hero-card-value {
+      font-family: var(--display);
+      font-size: 1.3rem;
+      line-height: 1.25;
+      color: var(--ink);
+    }
+    @keyframes float1 { 0%,100%{transform:translateY(0) rotate(-2deg)} 50%{transform:translateY(-12px) rotate(-2deg)} }
+    @keyframes float2 { 0%,100%{transform:translateY(0) rotate(3deg)} 50%{transform:translateY(-8px) rotate(3deg)} }
+    @keyframes float3 { 0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(-15px) rotate(-1deg)} }
+
+    /* ---- DIVIDER ---- */
+    .section-divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(184,216,176,0.4), rgba(129,176,210,0.25), transparent);
+    }
+
+    /* ---- ABOUT ---- */
+    #about { background: var(--white); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .about-left { position: sticky; top: 100px; }
+    .about-accent {
+      display: inline-block;
+      background: var(--blue);
+      color: white;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 0.95rem;
+      padding: 8px 18px;
+      border-radius: 4px;
+      margin-bottom: 24px;
+    }
+    .about-right p {
+      font-size: 1.05rem;
+      color: var(--ink-mid);
+      line-height: 1.85;
+      margin-bottom: 20px;
+    }
+    .about-right p strong { color: var(--ink); font-weight: 500; }
+    .philosophy-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px; }
+    .philosophy-tag {
+      background: var(--cream-dark);
+      color: var(--ink-mid);
+      font-size: 0.8rem;
+      padding: 7px 16px;
+      border-radius: 40px;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+    .philosophy-tag-green {
+      background: rgba(184,216,176,0.3);
+      border-color: rgba(184,216,176,0.5);
+      color: var(--green-dark);
+    }
+
+    /* ---- CASE STUDIES ---- */
+    #case-studies { background: var(--cream); }
+    .case-studies-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 56px;
+      gap: 24px;
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+    }
+    .project-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 36px 34px 30px;
+      border: 1px solid rgba(0,0,0,0.05);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--blue);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .project-card:hover::before { transform: scaleX(1); }
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-card);
+      border-color: rgba(129,176,210,0.2);
+    }
+    .project-card:nth-child(2)::before { background: var(--yellow-warm); }
+    .project-card:nth-child(3)::before { background: var(--blue-light); }
+    .project-card:nth-child(4)::before { background: var(--green); }
+    .project-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 40px;
+      margin-bottom: 20px;
+      width: fit-content;
+    }
+    .tag-strategy { background: rgba(129,176,210,0.15); color: var(--blue-dark); }
+    .tag-data { background: rgba(247,233,160,0.5); color: #7a6a10; }
+    .tag-product { background: rgba(184,216,176,0.35); color: var(--green-dark); }
+    .tag-finance { background: rgba(210,176,129,0.2); color: #7a5a2a; }
+    .project-number {
+      font-family: var(--display);
+      font-size: 2.8rem;
+      color: rgba(0,0,0,0.04);
+      position: absolute;
+      top: 22px; right: 28px;
+      line-height: 1;
+    }
+    .project-title {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--ink-mid);
+      line-height: 1.75;
+      flex: 1;
+      margin-bottom: 28px;
+    }
+    .project-focus { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
+    .project-focus-tag {
+      font-size: 0.72rem;
+      color: var(--ink-light);
+      background: var(--cream-dark);
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.83rem;
+      font-weight: 500;
+      color: var(--blue-dark);
+      transition: var(--transition);
+    }
+    .project-link:hover { gap: 12px; color: var(--ink); }
+    .project-link .arrow { transition: transform 0.25s ease; }
+    .project-link:hover .arrow { transform: translateX(4px); }
+
+    /* ---- ANALYTICAL ---- */
+    #analytical { background: var(--white); }
+    .analytical-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-top: 48px;
+    }
+    .analytical-card {
+      border: 1.5px solid rgba(129,176,210,0.25);
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      background: var(--cream);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .analytical-card:hover {
+      border-color: var(--blue);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(129,176,210,0.15);
+    }
+    .analytical-card:nth-child(2):hover {
+      border-color: var(--green);
+      box-shadow: 0 12px 40px rgba(184,216,176,0.25);
+    }
+    .analytical-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .analytical-icon-green { background: var(--green-dark); }
+    .analytical-title {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .analytical-desc {
+      font-size: 0.9rem;
+      color: var(--ink-mid);
+      line-height: 1.75;
+      margin-bottom: 24px;
+    }
+    .analytical-note {
+      font-size: 0.82rem;
+      color: var(--blue-dark);
+      font-style: italic;
+      margin-bottom: 20px;
+      padding-left: 14px;
+      border-left: 2px solid var(--blue-light);
+    }
+    .analytical-card:nth-child(2) .analytical-note {
+      color: var(--green-dark);
+      border-left-color: var(--green);
+    }
+
+    /* ---- BUILDS ---- */
+    #builds { background: var(--cream); }
+    .builds-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-top: 48px;
+    }
+    .build-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      border: 1px solid rgba(0,0,0,0.05);
+      transition: var(--transition);
+    }
+    .build-card:nth-child(1) {
+      background: linear-gradient(135deg, rgba(184,216,176,0.12) 0%, var(--white) 100%);
+    }
+    .build-card:nth-child(2) {
+      background: linear-gradient(135deg, rgba(129,176,210,0.1) 0%, var(--white) 100%);
+    }
+    .build-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-card);
+    }
+    .build-accent {
+      width: 40px;
+      height: 6px;
+      border-radius: 40px;
+      margin-bottom: 20px;
+    }
+    .build-accent-green { background: var(--green); }
+    .build-accent-blue { background: var(--blue); }
+    .build-title {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .build-desc {
+      font-size: 0.9rem;
+      color: var(--ink-mid);
+      line-height: 1.75;
+      margin-bottom: 24px;
+    }
+    .builds-note {
+      margin-top: 48px;
+      background: var(--green);
+      border-radius: var(--radius-lg);
+      padding: 32px 36px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .builds-note-icon { flex-shrink: 0; }
+    .builds-note p {
+      font-size: 1rem;
+      color: var(--ink);
+      line-height: 1.7;
+      font-style: italic;
+      font-family: var(--serif);
+    }
+
+    /* ---- MATCHA ---- */
+    #matcha {
+      background: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+    #matcha::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 80% 50%, rgba(247,233,160,0.2) 0%, transparent 60%),
+                  radial-gradient(ellipse at 20% 80%, rgba(184,216,176,0.15) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .matcha-inner {
+      max-width: 760px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+    }
+    .matcha-accent {
+      display: inline-block;
+      width: 48px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--green), var(--blue));
+      border-radius: 4px;
+      margin-bottom: 28px;
+    }
+    .matcha-body {
+      font-family: var(--serif);
+      font-size: clamp(1.05rem, 1.8vw, 1.2rem);
+      line-height: 1.9;
+      color: var(--ink-mid);
+      font-style: italic;
+    }
+    .matcha-body strong {
+      color: var(--ink);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    /* ---- THINKING ---- */
+    #thinking { background: var(--cream); }
+    .thinking-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .thinking-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      border: 1px solid rgba(0,0,0,0.05);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .thinking-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-soft);
+      border-color: rgba(129,176,210,0.3);
+    }
+    .thinking-card:nth-child(2):hover,
+    .thinking-card:nth-child(4):hover {
+      border-color: rgba(184,216,176,0.4);
+    }
+    .thinking-num {
+      font-family: var(--display);
+      font-size: 2.4rem;
+      color: var(--blue-light);
+      line-height: 1;
+    }
+    .thinking-card:nth-child(2) .thinking-num,
+    .thinking-card:nth-child(4) .thinking-num {
+      color: var(--green);
+    }
+    .thinking-title {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .thinking-desc {
+      font-size: 0.88rem;
+      color: var(--ink-mid);
+      line-height: 1.75;
+    }
+
+    /* ---- CONTACT ---- */
+    #contact {
+      background: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+    #contact::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(129,176,210,0.14) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 100%, rgba(184,216,176,0.2) 0%, transparent 55%),
+                  radial-gradient(ellipse at 20% 80%, rgba(247,233,160,0.12) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .contact-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .contact-title {
+      font-family: var(--display);
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      line-height: 1.12;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+    .contact-sub {
+      font-size: 1rem;
+      color: var(--ink-mid);
+      line-height: 1.75;
+      max-width: 500px;
+      margin: 0 auto 44px;
+    }
+    .contact-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+    .btn-contact-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 32px;
+      border-radius: 40px;
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      background: var(--blue);
+      color: var(--white);
+      box-shadow: 0 6px 24px rgba(129,176,210,0.4);
+      transition: var(--transition);
+      text-decoration: none;
+      border: none;
+    }
+    .btn-contact-primary:hover {
+      background: var(--blue-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 36px rgba(129,176,210,0.5);
+    }
+    .btn-contact-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 32px;
+      border-radius: 40px;
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      background: var(--yellow);
+      color: var(--ink);
+      box-shadow: 0 6px 24px rgba(247,224,122,0.35);
+      transition: var(--transition);
+      text-decoration: none;
+      border: none;
+    }
+    .btn-contact-secondary:hover {
+      background: var(--yellow-warm);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 36px rgba(247,224,122,0.45);
+    }
+    .contact-closing {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--ink-light);
+    }
+
+    /* ---- FOOTER ---- */
+    footer {
+      background: var(--ink);
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      padding: 28px 32px;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+    }
+    footer span { color: rgba(255,255,255,0.7); }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 60px; }
+      .hero-visual { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .about-left { position: static; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .analytical-grid { grid-template-columns: 1fr; }
+      .builds-inner { grid-template-columns: 1fr; }
+      .thinking-grid { grid-template-columns: 1fr; }
+      .case-studies-header { flex-direction: column; align-items: flex-start; }
+      nav ul { display: none; }
+      .container { padding: 0 20px; }
+      .section { padding: 72px 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="logo">Blinh <span>Hoang</span></a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#case-studies">Work</a></li>
+      <li><a href="#analytical">Analysis</a></li>
+      <li><a href="#builds">Builds</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="container">
+      <div class="hero-inner">
+
+        <div class="hero-text fade-in">
+          <div class="hero-eyebrow">
+            <div class="dot"></div>
+            <span>Strategy · Data · Product</span>
+          </div>
+          <h1 class="hero-name">Blinh Hoang</h1>
+          <p class="hero-tagline">Systems, Stories, and Strategy</p>
+          <p class="hero-para">
+            I explore how data, behavior, and systems interact, then build things around it.
+            I am drawn to the invisible logic underneath products, markets, and decisions.
+            I do not just analyze; I ask why the system is built the way it is, and how it could be otherwise.
+          </p>
+          <div class="btn-group">
+            <a href="#case-studies" class="btn btn-primary">View Projects</a>
+            <a href="#thinking" class="btn btn-outline">Explore Thinking</a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-card-stack">
+            <div class="hero-card hero-card-3">
+              <div class="hero-card-label">Approach</div>
+              <div class="hero-card-value">Systems<br/>Thinking</div>
+            </div>
+            <div class="hero-card hero-card-1">
+              <div class="hero-card-label">Focus Areas</div>
+              <div class="hero-card-value">Data · Product<br/>Strategy · Behavior</div>
+            </div>
+            <div class="hero-card hero-card-2">
+              <div class="hero-card-label">Currently</div>
+              <div class="hero-card-value">Building &amp;<br/>Analyzing</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="about-grid">
+
+        <div class="about-left fade-in">
+          <p class="section-label">Philosophy</p>
+          <h2 class="section-title">I think in<br/>systems, not<br/>spreadsheets.</h2>
+          <div class="about-accent">on how I work</div>
+        </div>
+
+        <div class="about-right fade-in">
+          <p>
+            Most people analyze data. I try to understand what the data is a symptom of.
+            <strong>There is usually a more interesting problem hiding underneath the one everyone is looking at.</strong>
+            That is what I find interesting: the invisible logic, the structural gap, the assumption nobody has questioned yet.
+          </p>
+          <p>
+            I am not a pure analyst, and I am not a pure strategist. I sit somewhere in the middle:
+            <strong>someone who can get deep into the numbers and then zoom out to ask what any of it means for the business, the product, or the person using it.</strong>
+          </p>
+          <p>
+            I build things: quizzes, apps, case studies, models, because I think building is the fastest way to understand something.
+            Analysis tells you what is there. Building tells you what is possible.
+          </p>
+          <p>
+            I care about behavior. How people actually make decisions (not how we think they do).
+            How products create habits or break them. <strong>How data reflects human patterns, not just business ones.</strong>
+          </p>
+          <div class="philosophy-tags">
+            <span class="philosophy-tag">Risk Thinking</span>
+            <span class="philosophy-tag">Consumer Behavior</span>
+            <span class="philosophy-tag philosophy-tag-green">Product Strategy</span>
+            <span class="philosophy-tag">Data Analysis</span>
+            <span class="philosophy-tag philosophy-tag-green">Systems Design</span>
+            <span class="philosophy-tag">Decision-Making</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- CASE STUDIES -->
+  <section id="case-studies" class="section">
+    <div class="container">
+
+      <div class="case-studies-header">
+        <div class="fade-in">
+          <p class="section-label">Featured Work</p>
+          <h2 class="section-title">Case Studies</h2>
+        </div>
+        <p class="section-subtitle fade-in" style="max-width:340px;">
+          Each project is a way of thinking through a real problem: structurally, analytically, strategically.
+        </p>
+      </div>
+
+      <div class="projects-grid">
+
+        <div class="project-card fade-in">
+          <div class="project-number">01</div>
+          <span class="project-tag tag-strategy">Strategy</span>
+          <h3 class="project-title">Cloudflare Internal Audit</h3>
+          <p class="project-desc">
+            A deep systems-level audit examining Cloudflare's internal control environment. I mapped risk exposure,
+            identified control gaps, and thought through what a high-integrity governance framework actually requires at scale.
+          </p>
+          <div class="project-focus">
+            <span class="project-focus-tag">Risk Thinking</span>
+            <span class="project-focus-tag">Control Gaps</span>
+            <span class="project-focus-tag">Data-Driven Audit</span>
+            <span class="project-focus-tag">Systems Framing</span>
+          </div>
+          <a href="https://blinh0405.github.io/Cloudflare_Internal_Audit/" target="_blank" class="project-link">
+            View Case Study <span class="arrow">&#8594;</span>
+          </a>
+        </div>
+
+        <div class="project-card fade-in">
+          <div class="project-number">02</div>
+          <span class="project-tag tag-data">GTM Strategy</span>
+          <h3 class="project-title">Cloudflare GTM Strategy</h3>
+          <p class="project-desc">
+            An analysis of Cloudflare's commercial positioning with a focus on invisible SMB problems:
+            where the market is, why growth stalls, and how to reframe value for the segment that matters most.
+          </p>
+          <div class="project-focus">
+            <span class="project-focus-tag">SMB Strategy</span>
+            <span class="project-focus-tag">Commercial Framing</span>
+            <span class="project-focus-tag">Market Analysis</span>
+            <span class="project-focus-tag">Value Prop Design</span>
+          </div>
+          <a href="https://blinh0405.github.io/Cloudflare_CL/" target="_blank" class="project-link">
+            View Case Study <span class="arrow">&#8594;</span>
+          </a>
+        </div>
+
+        <div class="project-card fade-in">
+          <div class="project-number">03</div>
+          <span class="project-tag tag-product">Analysis</span>
+          <h3 class="project-title">TikTok Behavior Analysis</h3>
+          <p class="project-desc">
+            A study in consumer behavior and cultural signals, exploring how TikTok's content ecosystem works
+            not just as an algorithm, but as a reflection of identity, community, and attention economics.
+          </p>
+          <div class="project-focus">
+            <span class="project-focus-tag">Consumer Behavior</span>
+            <span class="project-focus-tag">Cultural Analysis</span>
+            <span class="project-focus-tag">Storytelling</span>
+            <span class="project-focus-tag">Platform Strategy</span>
+          </div>
+          <a href="https://blinh0405.github.io/tiktok_analysis_project_html_claude/" target="_blank" class="project-link">
+            View Analysis <span class="arrow">&#8594;</span>
+          </a>
+        </div>
+
+        <div class="project-card fade-in">
+          <div class="project-number">04</div>
+          <span class="project-tag tag-finance">Finance</span>
+          <h3 class="project-title">Tru Fru Finance Portfolio</h3>
+          <p class="project-desc">
+            A strategic and financial deep-dive into Tru Fru, examining supply chain economics, margin structure,
+            and what the numbers reveal about the brand's competitive position and product-market trajectory.
+          </p>
+          <div class="project-focus">
+            <span class="project-focus-tag">Supply Chain</span>
+            <span class="project-focus-tag">Cost Structure</span>
+            <span class="project-focus-tag">Product Strategy</span>
+            <span class="project-focus-tag">Business Intuition</span>
+          </div>
+          <a href="https://blinh0405.github.io/Tru_Fru_Finance_Portfolio/" target="_blank" class="project-link">
+            View Portfolio <span class="arrow">&#8594;</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ANALYTICAL WORK -->
+  <section id="analytical" class="section">
+    <div class="container">
+
+      <div class="fade-in">
+        <p class="section-label">Depth Work</p>
+        <h2 class="section-title">Data &amp;<br/>Analytical Work</h2>
+        <p class="section-subtitle">
+          The projects that show how I move: from raw data to structured insight, from question to answer.
+        </p>
+      </div>
+
+      <div class="analytical-grid">
+
+        <div class="analytical-card fade-in">
+          <div class="analytical-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <ellipse cx="12" cy="5" rx="9" ry="3"/>
+              <path d="M3 5v4c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/>
+              <path d="M3 9v4c0 1.66 4.03 3 9 3s9-1.34 9-3V9"/>
+              <path d="M3 13v4c0 1.66 4.03 3 9 3s9-1.34 9-3v-4"/>
+            </svg>
+          </div>
+          <h3 class="analytical-title">SQL Performance Analysis</h3>
+          <p class="analytical-desc">
+            A structured SQL project examining cafe operational data, querying for patterns in performance,
+            revenue timing, and product mix to surface actionable operational insights.
+          </p>
+          <p class="analytical-note">
+            Shows: I can write clean, purposeful queries. More importantly, I know what questions are worth asking.
+          </p>
+          <a href="https://github.com/blinh0405/cafe_performance_SQL_project" target="_blank" class="project-link">
+            View on GitHub <span class="arrow">&#8594;</span>
+          </a>
+        </div>
+
+        <div class="analytical-card fade-in">
+          <div class="analytical-icon analytical-icon-green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"/>
+              <line x1="12" y1="20" x2="12" y2="4"/>
+              <line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+          </div>
+          <h3 class="analytical-title">R Statistical Portfolio</h3>
+          <p class="analytical-desc">
+            A collection of R projects spanning statistical modeling, exploration, and visualization,
+            built around real datasets where the goal was never just a result, but understanding what the data is saying.
+          </p>
+          <p class="analytical-note">
+            Shows: I am comfortable with ambiguity in data. I model to understand, not to fit a narrative.
+          </p>
+          <a href="https://blinh0405.github.io/r-project-portfolio/" target="_blank" class="project-link">
+            View Portfolio <span class="arrow">&#8594;</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- BUILDS -->
+  <section id="builds" class="section">
+    <div class="container">
+
+      <div class="fade-in">
+        <p class="section-label">Experimental</p>
+        <h2 class="section-title">Things I Built</h2>
+        <p class="section-subtitle">
+          I build to understand. These projects exist because analysis alone was not enough;
+          I needed to make something to figure out what I actually thought.
+        </p>
+      </div>
+
+      <div class="builds-inner">
+
+        <div class="build-card fade-in">
+          <div class="build-accent build-accent-green"></div>
+          <h3 class="build-title">Keewee Quiz</h3>
+          <p class="build-desc">
+            A playful but intentional product built around identity and personality: what does it say about
+            someone that they would rather be described by a flavor than an adjective? Keewee explores how
+            people understand themselves through unexpected frames.
+          </p>
+          <a href="https://blinh0405.github.io/keewee-quiz/" target="_blank" class="project-link">
+            Try the Quiz <span class="arrow">&#8594;</span>
+          </a>
+        </div>
+
+        <div class="build-card fade-in">
+          <div class="build-accent build-accent-blue"></div>
+          <h3 class="build-title">MatchaMeki</h3>
+          <p class="build-desc">
+            An indie-style social matching app connecting people through shared taste and personality,
+            because how someone drinks their matcha tells you more about them than a dating profile ever could.
+            Built as a genuine product concept, not just a demo.
+          </p>
+          <a href="https://github.com/blinh0405/matchameki" target="_blank" class="project-link">
+            View on GitHub <span class="arrow">&#8594;</span>
+          </a>
+        </div>
+
+      </div>
+
+      <div class="builds-note fade-in">
+        <div class="builds-note-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--ink-mid)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </div>
+        <p>
+          "These are not side projects in the traditional sense; they are proof that I think in product, not just analysis.
+          I build things to test hypotheses about behavior, identity, and what makes something feel <em>right</em>."
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MATCHA -->
+  <section id="matcha" class="section">
+    <div class="container">
+      <div class="matcha-inner fade-in">
+        <p class="section-label" style="text-align:center;">On Curiosity</p>
+        <h2 class="section-title" style="text-align:center; margin-bottom:28px;">On Matcha, Systems,<br/>and Why I Build</h2>
+        <div style="display:flex;justify-content:center;margin-bottom:36px;">
+          <div class="matcha-accent"></div>
+        </div>
+        <p class="matcha-body">
+          Matcha is a ritual, not just a drink. There is something satisfying about the way the whisking works:
+          the same motion, producing a different result every time depending on temperature, pressure, attention.
+          <strong>It is a small system. And I like understanding small systems.</strong>
+          <br/><br/>
+          When I built MatchaMeki, it was not really about matcha. It was about asking:
+          <em>can the things we like, the textures, the temperatures, the quiet preferences,
+          tell us something true about who we are?</em>
+          And can that be turned into a product people actually want to use?
+          <br/><br/>
+          That is the same instinct behind every case study, every SQL query, every analysis I have built.
+          <strong>Find the thing that seems small but is not. Build something around it.
+          See what it reveals.</strong>
+          That is not a methodology. It is just how I think.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- HOW I THINK -->
+  <section id="thinking" class="section">
+    <div class="container">
+
+      <div class="fade-in">
+        <p class="section-label">Mindset</p>
+        <h2 class="section-title">How I Think</h2>
+      </div>
+
+      <div class="thinking-grid">
+
+        <div class="thinking-card fade-in">
+          <div class="thinking-num">01</div>
+          <h3 class="thinking-title">I find invisible problems</h3>
+          <p class="thinking-desc">
+            The most interesting problems are not obvious; they are structural.
+            They are hiding in the assumptions everyone accepts, the metrics nobody questions,
+            the gap between what the data says and what the business is actually doing.
+            I look for those.
+          </p>
+        </div>
+
+        <div class="thinking-card fade-in">
+          <div class="thinking-num">02</div>
+          <h3 class="thinking-title">I think in systems, not tasks</h3>
+          <p class="thinking-desc">
+            A task produces an output. Systems thinking asks: what are the feedback loops here?
+            What breaks when this changes? What is the second-order effect?
+            I naturally work at the level of structure, not just execution.
+          </p>
+        </div>
+
+        <div class="thinking-card fade-in">
+          <div class="thinking-num">03</div>
+          <h3 class="thinking-title">I build to understand</h3>
+          <p class="thinking-desc">
+            Analysis is one way of knowing something. Building is another: faster, more honest,
+            harder to fake. When I build, I am not showing off a skill.
+            I am running an experiment. The product is just how I take notes.
+          </p>
+        </div>
+
+        <div class="thinking-card fade-in">
+          <div class="thinking-num">04</div>
+          <h3 class="thinking-title">I connect data with human behavior</h3>
+          <p class="thinking-desc">
+            Numbers are always a proxy for something people did.
+            I want to understand both: the pattern in the data,
+            and the behavior that created it.
+            That is where the most useful insight lives, in the translation.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section">
+    <div class="container">
+      <div class="contact-inner fade-in">
+        <p class="section-label">Let's Connect</p>
+        <h2 class="contact-title">Let's Build Something Meaningful</h2>
+        <p class="contact-sub">
+          I am always interested in conversations about data, product, strategy, or building something meaningful.
+        </p>
+        <div class="contact-buttons">
+          <a href="https://www.linkedin.com/in/bao-linh-hoang-9452512bb/" target="_blank" class="btn-contact-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+              <rect x="2" y="9" width="4" height="12"/>
+              <circle cx="4" cy="4" r="2"/>
+            </svg>
+            Connect on LinkedIn
+          </a>
+          <a href="mailto:hoang_b1@denison.edu" class="btn-contact-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Email Me
+          </a>
+        </div>
+        <p class="contact-closing">Built with curiosity, matcha, and way too many ideas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>Blinh Hoang</span> &nbsp;&middot;&nbsp; Systems, Stories, and Strategy &nbsp;&middot;&nbsp; 2025
+  </footer>
+
+  <script>
+    // Scroll fade-in
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const siblings = [...entry.target.parentElement.querySelectorAll('.fade-in')];
+          const idx = siblings.indexOf(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, idx * 90);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    fadeEls.forEach(el => observer.observe(el));
+
+    // Nav shadow on scroll
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      nav.style.boxShadow = window.scrollY > 40 ? '0 4px 24px rgba(0,0,0,0.06)' : 'none';
+    });
+  </script>
+
+</body>
+</html>
